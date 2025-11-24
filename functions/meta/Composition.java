@@ -23,17 +23,20 @@ public class Composition implements Function {
     
     
     public double getFunctionValue(double x) {
-        // Вычисляем значение первой функции
+        
+        if (x < f1.getLeftDomainBorder() || x > f1.getRightDomainBorder()) {
+            return Double.NaN;
+        }
+        
+        
         double intermediate = f1.getFunctionValue(x);
-        if (Double.isNaN(intermediate)) {
+        
+        
+        if (Double.isNaN(intermediate) || 
+            intermediate < f2.getLeftDomainBorder() || 
+            intermediate > f2.getRightDomainBorder()) {
             return Double.NaN;
         }
-        
-        // Проверяем, что intermediate принадлежит области определения второй функции
-        if (intermediate < f2.getLeftDomainBorder() || intermediate > f2.getRightDomainBorder()) {
-            return Double.NaN;
-        }
-        
         
         return f2.getFunctionValue(intermediate);
     }

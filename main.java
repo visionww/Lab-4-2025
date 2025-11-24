@@ -111,7 +111,7 @@ public class main {
             // Создаем композицию функций: ln(exp(x)) = x
             Exp expFunc2 = new Exp();
             Log logFunc2 = new Log(Math.E);
-            Function composition = Functions.composition(logFunc2, expFunc2); // ln(exp(x))
+            Function composition = Functions.composition(expFunc2, logFunc2); // ln(exp(x))
             
             // Создаем табулированную версию
             TabulatedFunction tabulatedComp = TabulatedFunctions.tabulate(composition, 0, 10, 11);
@@ -123,17 +123,16 @@ public class main {
             }
             System.out.println();
             
-            // Создаем массив точек из табулированной функции
             FunctionPoint[] points = new FunctionPoint[tabulatedComp.getPointsCount()];
             for (int i = 0; i < tabulatedComp.getPointsCount(); i++) {
                 points[i] = tabulatedComp.getPoint(i);
             }
+
             
             // Тестируем сериализацию ArrayTabulatedFunction (Externalizable)
             System.out.println(" ArrayTabulatedFunction (Externalizable)");
             
-            // Создаем ArrayTabulatedFunction через массив точек
-            TabulatedFunction arrayFunc = new ArrayTabulatedFunction(points);
+            TabulatedFunction arrayFunc = tabulatedComp;
             
             // Сериализуем в файл 
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("array_function.dat"))) {
